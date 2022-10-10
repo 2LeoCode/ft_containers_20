@@ -3,12 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft.namespace.hpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Leo Suardi <lsuardi@student.42.fr>         +#+  +:+       +#+        */
+/*   By: lsuardi <lsuardi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 12:40:13 by Leo Suardi        #+#    #+#             */
-/*   Updated: 2022/10/10 00:49:06 by Leo Suardi       ###   ########.fr       */
+/*   Updated: 2022/10/10 16:14:22 by lsuardi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include <compare>
 
 namespace ft {
 
@@ -36,8 +38,50 @@ namespace ft {
 
 	template < class T, class Diff >
 	constexpr iterator< T, Diff > operator + (
-		std::size_t n,
+		Diff n,
 		const iterator< T, Diff > & iter
+	) noexcept;
+
+	template < class Iter1, class Iter2 >
+	constexpr bool operator < (
+		const Iter1 & lhs,
+		const Iter2 & rhs
+	) noexcept;
+
+	template < class Iter1, class Iter2 >
+	constexpr bool operator > (
+		const Iter1 & lhs,
+		const Iter2 & rhs
+	) noexcept;
+
+	template < class Iter1, class Iter2 >
+	constexpr bool operator <= (
+		const Iter1 & lhs,
+		const Iter2 & rhs
+	) noexcept;
+
+	template < class Iter1, class Iter2 >
+	constexpr bool operator >= (
+		const Iter1 & lhs,
+		const Iter2 & rhs
+	) noexcept;
+
+	template < class Iter1, class Iter2 >
+	constexpr bool operator == (
+		const Iter1 & lhs,
+		const Iter2 & rhs
+	) noexcept;
+
+	template < class Iter1, class Iter2 >
+	constexpr bool operator != (
+		const Iter1 & lhs,
+		const Iter2 & rhs
+	) noexcept;
+
+	template< class Iter1, std::three_way_comparable_with< Iter1 > Iter2 >
+	constexpr std::compare_three_way_result_t< Iter1, Iter2 > operator <=> (
+		const Iter1 & lhs,
+		const Iter2 & rhs
 	) noexcept;
 
 	template < class T, class Diff >

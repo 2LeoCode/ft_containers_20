@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   iterator_traits.hpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: Leo Suardi <lsuardi@student.42.fr>         +#+  +:+       +#+        */
+/*   By: lsuardi <lsuardi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 12:21:06 by Leo Suardi        #+#    #+#             */
-/*   Updated: 2022/10/10 01:19:12 by Leo Suardi       ###   ########.fr       */
+/*   Updated: 2022/10/10 14:27:54 by lsuardi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,11 @@ template < class T >
 concept has_iterator_category = requires { typename T::iterator_category; };
 
 template < class T >
-concept has_arrow_operator = requires { std::declval<T&>().operator->(); };
+concept has_arrow_operator = requires { std::is_pointer_v<T> || std::declval<T&>().operator->(); };
 
 template < class T >
-concept is_referenceable = requires { !std::is_same< T, void >::value; };
+concept is_referenceable = requires { !std::same_as< T, void >; };
+
 
 
 
@@ -380,5 +381,16 @@ struct ft::iterator_traits
 		has_iterator_category< Iter >
 	>
 { };
+
+template < class T >
+	requires requires { std::is_object_v<T>; }
+struct ft::iterator_traits< T* > {
+	typedef std::ptrdiff_t					difference_type;
+	typedef ft::remove_cv_t< T >			value_type;
+	typedef T*								pointer;
+	typedef T&								reference;
+	typedef std::random_access_iterator_tag	iterator_category;
+	typedef std::contiguous_iterator_tag	iterator_concept;
+}; 
 
 #endif
